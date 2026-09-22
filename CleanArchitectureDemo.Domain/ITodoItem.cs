@@ -1,6 +1,8 @@
 ﻿namespace CleanArchitectureDemo.Domain;
 
-public class Class1
+public interface ITodoItem
 {
-
+    public string Title { get; set; }
+    public bool IsCompleted { get; set; }
+    public void MarkAsCompleted();
 }
