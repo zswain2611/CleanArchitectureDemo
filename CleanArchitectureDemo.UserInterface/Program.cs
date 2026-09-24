@@ -1,7 +1,22 @@
-﻿using CleanArchitectureDemo.Domain;
+﻿using CleanArchitectureDemo.Application;
+using CleanArchitectureDemo.Domain;
 using CleanArchitectureDemo.Infrastructure;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
-ITodoRepository todoRepository = new FileBasedTodoRepository();
+HostApplicationBuilder builder = Host.CreateApplicationBuilder();
+
+if (args.Length > 0 && args[0] == "File")
+{
+    builder.Services.AddSingleton<ITodoRepository, FileBasedTodoRepository>();
+}
+else
+{
+    builder.Services.AddSingleton<ITodoRepository, TodoRepository>();
+}
+
+using IHost host = builder.Build();
+ITodoRepository todoRepository = host.Services.GetRequiredService<ITodoRepository>();
 var isrunning = true;
 
 while (isrunning)
